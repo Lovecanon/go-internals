@@ -1,0 +1,18 @@
+[book]
+title = "go internals"
+authors = [""]
+description = ""
+language = "zh"
+multilingual = false
+src = "."
+
+[build]
+build-dir = "dist"
+
+[output.html]
+
+[output.html.search]
+enable = false
+
+[output.html.print]
+enable = false

@@ -1,0 +1,47 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    env:
+      REPO_NAME: ${{ github.event.repository.name }}
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install mdbook
+      run: |
+        mkdir mdbook
+        curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.14/mdbook-v0.4.14-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook
+        echo `pwd`/mdbook >> $GITHUB_PATH
+    - name: Deploy GitHub Pages
+      run: |
+        # This assumes your book is in the root of your repository.
+        # Just add a `cd` here if you need to change to another directory.
+        echo "REPO Name: ${REPO_NAME}"
+        mdbook build -d "dist"
+        rm -rf dist/.git dist/.github dist/.gitignore
+        ls -hal dist
+
+    - name: Pushes to another repository
+      uses: cpina/github-action-push-to-another-repository@main
+      env:
+        SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source-directory: 'dist'
+        destination-github-username: 'Lovecanon'
+        destination-repository-name: 'archives'
+        user-email: 535036628@qq.com
+        user-name: github-action
+        target-branch: dist
+        target-directory: "ebook/${{ env.REPO_NAME }}"
+        create-target-branch-if-needed: true
+    - name: clean
+      run: |
+        rm -rf dist
