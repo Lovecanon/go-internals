@@ -39,7 +39,7 @@ jobs:
         destination-repository-name: 'archives'
         user-email: 535036628@qq.com
         user-name: github-action
-        target-branch: dist
+        target-branch: ebook
         target-directory: "ebook/${{ env.REPO_NAME }}"
         create-target-branch-if-needed: true
     - name: clean
