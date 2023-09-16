@@ -36,11 +36,11 @@ jobs:
       with:
         source-directory: 'dist'
         destination-github-username: 'Lovecanon'
-        destination-repository-name: 'archives'
-        user-email: 535036628@qq.com
-        user-name: github-action
-        target-branch: main
-        target-directory: "ebook/${{ env.REPO_NAME }}"
+        destination-repository-name: 'ebook'
+        user-email: '535036628@qq.com'
+        user-name: 'github-action'
+        target-branch: 'dist'
+        target-directory: "${{ env.REPO_NAME }}"
         create-target-branch-if-needed: true
     - name: clean
       run: |
